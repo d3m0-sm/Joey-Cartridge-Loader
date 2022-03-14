@@ -16,7 +16,7 @@ You can change the following parameters:
       letter=
     </td>
     <td>
-      ::Used so tell the programm the drive letter of your Joey
+      Used so tell the programm the drive letter of your Joey
     </td>
   </tr>
   <tr>
