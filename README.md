@@ -9,7 +9,7 @@ Exp. mGBA
 Configurations:
 Configurations are stored in the "loader.conf".
 You can change the following parameters:
-
+#
 letter=            ::Used so tell the programm the drive letter of your Joey.
 irgnore_checksum=  ::If set to True, it doesen't check the checksome of your rom.
 
