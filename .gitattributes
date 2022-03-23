@@ -3,6 +3,7 @@
 ###############################################################################
 * text=auto
 Linux/joey-cartridge-load.py -linguist-detectable
+Linux/joey-cartridge-load.py linguist-language=Python
 
 ###############################################################################
 # Set default behavior for command prompt diff.
