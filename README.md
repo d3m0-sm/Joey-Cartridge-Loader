@@ -5,6 +5,8 @@ Automatically checks and then loads the rom from the Joey Jr.
 Requirements:
 You have to associate the .GBC and .GBA extensions with your favourite emulator
 Exp. mGBA
+
+OS: Windows 10, Ubuntu/Kubuntu 20.04
 <br /><br />
 Configurations:
 Configurations are stored in the "loader.conf".
@@ -25,6 +27,14 @@ You can change the following parameters:
     </td>
     <td>
       If set to True, it doesen't check the checksome of your rom. 
+    </td>
+  </tr>
+  <tr>
+    <td>
+      ignore_rom_name=
+    </td>
+    <td>
+      If set to True, it ignores if the file name is `ROM.GBx`
     </td>
   </tr>
 </table>

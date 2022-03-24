@@ -1,7 +1,9 @@
 ###############################################################################
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
+Linux/joey-cartridge-load.py -linguist-detectable
 * text=auto
+Linux/joey-cartridge-load.py linguist-language=Python
 
 ###############################################################################
 # Set default behavior for command prompt diff.
