@@ -14,6 +14,7 @@ namespace Joey_Cartridge_loader
         {
             string letter = "";
             string ignore_checksum = "";
+            string ignore_rom_name = "";
             string[] config = { };
             string root_dir = "";
             string[] fs = {};
@@ -22,20 +23,27 @@ namespace Joey_Cartridge_loader
 
             if (!File.Exists("loader.conf"))
             {
-                File.WriteAllText("loader.conf", "letter=D\nignore_checksum=false");
+                File.WriteAllText("loader.conf", "letter=D\nignore_checksum=false\nignore_rom_name=false");
             }
 
             config = File.ReadAllLines("loader.conf");
 
             foreach (string line in config)
             {
-                if (line.StartsWith("letter="))
+                string[] cfg = line.Split('=');
+                string arg = cfg[0];
+                string param = cfg[1];
+                if (arg == "letter")
                 {
-                    letter = line.Replace("letter=", "");
+                    letter = param;
                 }
-                else if (line.StartsWith("ignore_checksum="))
+                else if (arg == "ignore_checksum")
                 {
-                    ignore_checksum = line.Replace("ignore_checksum=", "");
+                    ignore_checksum = param;
+                }
+                else if (arg == "ignore_rom_name")
+                {
+                    ignore_rom_name = param;
                 }
             }
 
@@ -46,14 +54,31 @@ namespace Joey_Cartridge_loader
                 Environment.Exit(0);
             }
 
+            if (letter == "auto")
+            {
+                Console.WriteLine("Error: letter type auto is not supported on Windows");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+
             if (Directory.Exists($"{letter}:\\"))
             {
                 root_dir = $"{letter}:\\";
                 fs = Directory.GetFiles(root_dir, "*.GB?");
-                if (File.Exists(root_dir + "FIRMWARE.JR") && fs[0].StartsWith(root_dir + "ROM") == false)
+                if (ignore_rom_name == "false")
+                {
+                    if (fs[0].StartsWith(root_dir + "ROM"))
+                    {
+                        Console.WriteLine("Error: Couldn't load ROM");
+                        Console.WriteLine("Please cleanup your cartridge and reinsert it");
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
+                }
+                if (File.Exists(root_dir + "FIRMWARE.JR") && File.Exists(root_dir + "DEBUG.TXT"))
                 {
                     check = true;
-                    if (ignore_checksum == "false" && File.Exists(root_dir + "DEBUG.TXT"))
+                    if (ignore_checksum == "false")
                     {
                         debug = File.ReadAllLines(root_dir + "DEBUG.TXT");
                         foreach (string line in debug)
@@ -64,27 +89,17 @@ namespace Joey_Cartridge_loader
                                 if (checksum != "Correct" )
                                 {
                                     Console.WriteLine("Error: Checksum is incorrect!");
+                                    Console.WriteLine("Please cleanup your cartridge and reinsert it");
                                     Console.ReadKey();
+                                    Environment.Exit(0);
                                 }
                             }
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine("Error: Something went wrong. Couldn't find DEBUG.TXT on Joey Jr.");
-                        Console.WriteLine("\nNote: you can ignore the checksum by setting the option in loader.conf to true");
-                        Console.ReadKey();
-                    }
-                }
-                else if (File.Exists(root_dir + "FIRMWARE.JR") == false)
-                {
-                    Console.WriteLine($"Error: The device with the drive letter {letter} isn't a Joey jr.");
-                    Console.ReadKey();
                 }
                 else
                 {
-                    Console.WriteLine("Error: Couldn't load ROM");
-                    Console.WriteLine("Please cleanup your cartridge a nd reinsert it");
+                    Console.WriteLine($"Error: The device with the drive letter {letter} isn't a Joey jr.");
                     Console.ReadKey();
                 }
             }
