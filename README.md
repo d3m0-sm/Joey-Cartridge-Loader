@@ -20,6 +20,9 @@ You can change the following parameters:
     <td>
       Used so tell the programm the drive letter of your Joey
     </td>
+    <td>
+      Examples: Win: (D, F, T); Lnx: (sdb, sdc, sdd) or auto
+    </td>
   </tr>
   <tr>
     <td>
@@ -27,6 +30,9 @@ You can change the following parameters:
     </td>
     <td>
       If set to True, it doesen't check the checksome of your rom. 
+    </td>
+    <td>
+      true/false
     </td>
   </tr>
   <tr>
@@ -36,7 +42,12 @@ You can change the following parameters:
     <td>
       If set to True, it ignores if the file name is `ROM.GBx`
     </td>
+    <td>
+      true/false
+    </td>
   </tr>
 </table>
+<br>
+Note: ´letter=auto´ does only work on linux.
 
 
